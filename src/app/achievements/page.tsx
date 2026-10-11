@@ -1,6 +1,5 @@
 "use client";
-
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,13 +15,11 @@ import {
   Play,
   Quote,
 } from "lucide-react";
-
 import { achievements } from "../../data/achievements/achievements";
 
 /* =========================================================
    CONTRIBUTOR TYPES
 ========================================================= */
-
 type Contributor = {
   id: string;
   name: string;
@@ -37,7 +34,6 @@ type Contributor = {
    First 10 = verified contribution records.
    Next 10 = featured contributors from the team screenshots.
 ========================================================= */
-
 const contributors: Contributor[] = [
   {
     id: "mohd-shadab",
@@ -129,13 +125,10 @@ const contributors: Contributor[] = [
     description:
       "Contributed to WikiClub Tech projects and open-source community activities.",
   },
-
   /* =======================================================
      ADDITIONAL FEATURED CONTRIBUTORS
-     Taken from the members visible in your screenshots.
      No fake contribution count is assigned.
   ======================================================= */
-
   {
     id: "anupam-yadav",
     name: "Anupam Yadav",
@@ -231,7 +224,6 @@ const contributors: Contributor[] = [
 /* =========================================================
    ACHIEVEMENT HIGHLIGHT TYPES
 ========================================================= */
-
 type Highlight = {
   id: string;
   type: "Awards & Recognition" | "Alumni Achievement" | "Testimonials";
@@ -241,33 +233,77 @@ type Highlight = {
   image: string;
   secondaryImage?: string;
   video?: boolean;
+  link?: string;
 };
 
 /* =========================================================
    ACHIEVEMENT HIGHLIGHTS
-   Add/replace real photos here as they become available.
+   Replace the four temporary online photo URLs when ready.
 ========================================================= */
-
 const achievementHighlights: Highlight[] = [
+  {
+    id: "indic-wikimedia-2026",
+    type: "Awards & Recognition",
+    title: "Indic Wikimedia Hackathon 2026",
+    subtitle: "Kavaljeet Singh · Open Source Contributions · Hyderabad",
+    description:
+      "Kavaljeet Singh contributed improvements to Clip2Commons, including Author Override, accessibility enhancements such as keyboard navigation and ARIA support, and improvements to the upload workflow. These contributions were reviewed and merged as part of the open-source development process.",
+    image:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
+    link:
+      "https://www.linkedin.com/posts/kavaljeet-singh-dev_opensource-wikimedia-mediawiki-activity-7482391525847601152-CZNr",
+  },
+  {
+    id: "genai-hackathon-2025",
+    type: "Awards & Recognition",
+    title: "GenAI Hackathon 2025 — First Position",
+    subtitle: "Team Nimbus · UIT Prayagraj",
+    description:
+      "Kavaljeet Singh's Team Nimbus secured first position in a seven-hour Generative AI hackathon at UIT Prayagraj, competing against more than 30 teams. This achievement highlights teamwork, rapid prototyping and practical application of generative AI.",
+    image:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
+    link: "https://in.linkedin.com/in/kavaljeet-singh-dev",
+  },
+  {
+    id: "wikipedia-25-shadab",
+    type: "Awards & Recognition",
+    title: "Wikipedia 25th Birthday Celebration",
+    subtitle: "Mohd Shadab · Wikimedia Community",
+    description:
+      "Mohd Shadab shared his Wikimedia journey and delivered a ‘Why I Wiki?’ session at WikiClub Tech UU. The celebration brought students closer to open knowledge, Wikimedia projects and the importance of improving representation in online knowledge resources.",
+    image:
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85",
+    link:
+      "https://diff.wikimedia.org/2026/04/12/wikipedia-25th-birthday-celebration-at-wikiclub-tech-united-university/",
+  },
+  {
+    id: "uhack-4-runner-up",
+    type: "Awards & Recognition",
+    title: "UHack 4.0 — First Runner-Up",
+    subtitle: "National Hackathon · ₹30,000 Prize",
+    description:
+      "The WikiClub Tech UU team secured first runner-up at UHack 4.0. The announced team members were Ayush Tiwari, Anshuman Rai, Saumya Agrahari and Unnati Kesarwani. The achievement celebrates collaborative problem-solving and building under hackathon conditions.",
+    image:
+      "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=85",
+    secondaryImage:
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=85",
+    link: "https://lnkd.in/p/g68nPqBE",
+    },
   {
     id: "tedx-united-university",
     type: "Awards & Recognition",
     title: "TEDx United University",
     subtitle: "Technical & Social Media Team",
     description:
-      "Contributed to the technical setup and social media operations at TEDx United University, amplifying the event's impact and engagement.",
+      "A highlight of student participation in technical setup and social media coordination at TEDx United University.",
     image: "/achievements/tedx-united-university.jpg",
     secondaryImage: "/achievements/tedx-united-university-2.jpg",
-  },
-  {
-    id: "community-recognition",
-    type: "Awards & Recognition",
-    title: "Community Recognition",
-    subtitle: "WikiClub Tech",
-    description:
-      "Recognizing the work, participation and achievements of members who contribute to the growth of the WikiClub Tech community.",
-    image: "/achievements/award-recognition.jpg",
-    secondaryImage: "/achievements/award-recognition-2.jpg",
   },
   {
     id: "alumni-achievement",
@@ -305,7 +341,6 @@ const achievementHighlights: Highlight[] = [
 /* =========================================================
    CONTRIBUTOR AVATAR
 ========================================================= */
-
 function ContributorAvatar({
   name,
   image,
@@ -316,14 +351,12 @@ function ContributorAvatar({
   size?: "small" | "large";
 }) {
   const [imageError, setImageError] = useState(false);
-
   const initials = name
     .split(" ")
     .map((part) => part[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
-
   const isLarge = size === "large";
 
   if (!image || imageError) {
@@ -358,7 +391,6 @@ function ContributorAvatar({
 /* =========================================================
    HIGHLIGHT IMAGE
 ========================================================= */
-
 function HighlightImage({
   src,
   alt,
@@ -393,7 +425,6 @@ function HighlightImage({
 /* =========================================================
    MEDAL
 ========================================================= */
-
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) {
     return (
@@ -405,7 +436,6 @@ function RankBadge({ rank }: { rank: number }) {
           className="h-6 w-6 text-yellow-700"
           strokeWidth={2.2}
         />
-
         <span className="absolute -bottom-2 rounded-full border border-yellow-300 bg-white px-1.5 py-0.5 text-[9px] font-extrabold text-yellow-700 shadow-sm">
           #1
         </span>
@@ -423,7 +453,6 @@ function RankBadge({ rank }: { rank: number }) {
           className="h-6 w-6 text-slate-600"
           strokeWidth={2.2}
         />
-
         <span className="absolute -bottom-2 rounded-full border border-slate-300 bg-white px-1.5 py-0.5 text-[9px] font-extrabold text-slate-600 shadow-sm">
           #2
         </span>
@@ -441,7 +470,6 @@ function RankBadge({ rank }: { rank: number }) {
           className="h-6 w-6 text-orange-700"
           strokeWidth={2.2}
         />
-
         <span className="absolute -bottom-2 rounded-full border border-orange-300 bg-white px-1.5 py-0.5 text-[9px] font-extrabold text-orange-700 shadow-sm">
           #3
         </span>
@@ -452,17 +480,339 @@ function RankBadge({ rank }: { rank: number }) {
   return <span className="contributor-rank">#{rank}</span>;
 }
 
+type HighlightSlide = {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  link?: string;
+  linkText?: string;
+};
+
+const highlightSections: {
+  id: string;
+  heading: string;
+  description: string;
+  slides: HighlightSlide[];
+}[] = [
+  {
+    id: "awards",
+    heading: "Awards & Recognition",
+    description:
+      "Celebrating achievements, hackathons and open-source contributions.",
+    slides: [
+      {
+        id: "clip2commons",
+        title: "Open-Source Contributions",
+        subtitle: "Kavaljeet Singh · Clip2Commons",
+        description:
+          "Kavaljeet shared his open-source contribution journey, including improvements related to accessibility, keyboard navigation and the upload workflow.",
+        image:
+          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+        link: "https://www.linkedin.com/posts/kavaljeet-singh-dev_opensource-wikimedia-mediawiki-activity-7482391525847601152-CZNr",
+        linkText: "View LinkedIn Post",
+      },
+      {
+        id: "genai-hackathon",
+        title: "GenAI Hackathon Achievement",
+        subtitle: "Team Nimbus · UIT Prayagraj",
+        description:
+          "A team achievement highlighting innovation, collaboration and problem-solving during a GenAI hackathon.",
+        image:
+          "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=85",
+        link: "https://in.linkedin.com/in/kavaljeet-singh-dev",
+        linkText: "View Contributor Profile",
+      },
+      {
+        id: "uhack",
+        title: "UHack 4.0 Recognition",
+        subtitle: "Team Achievement",
+        description: "Celebrating the team's participation, innovation, and achievements at UHack 4.0.",
+        image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
+        link: "https://lnkd.in/p/g68nPqBE",
+        linkText: "View UHack 4.0 Post",
+      },
+    ],
+  },
+  {
+    id: "alumni",
+    heading: "Alumni Achievements",
+    description:
+      "Celebrating alumni journeys, knowledge sharing and contributions to the Wikimedia community.",
+    slides: [
+      {
+        id: "shadab-wikipedia25",
+        title: "Wikipedia's 25th Birthday Celebration",
+        subtitle: "WikiClub Tech · Community Story",
+        description:
+          "Read about the Wikipedia 25th birthday celebration at WikiClub Tech, including the Why I Wiki session and Wikimedia journey shared during the event.",
+        image:
+          "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+        link: "https://diff.wikimedia.org/2026/04/12/wikipedia-25th-birthday-celebration-at-wikiclub-tech-united-university/",
+        linkText: "Read the Published Article",
+      },
+      {
+        id: "open-source-journey",
+        title: "Building an Open-Source Journey",
+        subtitle: "Community Contributions",
+        description:
+          "Open-source participation helps students build practical skills, collaborate with contributors and learn through real projects.",
+        image:
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
+      },
+      {
+        id: "alumni-community",
+        title: "Learning Beyond the Classroom",
+        subtitle: "Alumni & Community",
+        description:
+          "A space to feature verified alumni milestones, professional journeys, projects and experiences as more stories are collected.",
+        image:
+          "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=85",
+      },
+    ],
+  },
+  {
+    id: "testimonials",
+    heading: "Testimonials",
+    description:
+      "Experiences and reflections from members, mentors and collaborators.",
+    slides: [
+      {
+        id: "member-experience",
+        title: "A Community That Encourages Learning",
+        subtitle: "Member Experience · Sample Card",
+        description:
+          "Use this space to publish a real member's experience of workshops, teamwork, open-source learning and community participation. Replace this sample text with an approved testimonial.",
+        image:
+          "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
+      },
+      {
+        id: "mentor-experience",
+        title: "Learning Through Collaboration",
+        subtitle: "Mentor Feedback · Sample Card",
+        description:
+          "Feature feedback from a mentor or workshop facilitator here. Add the person's name and original source only after the testimonial has been verified.",
+        image:
+          "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85",
+      },
+      {
+        id: "community-experience",
+        title: "Growing Together as a Community",
+        subtitle: "Community Feedback · Sample Card",
+        description:
+          "Showcase a real community member's experience, highlighting the activities, people or opportunities that made a difference.",
+        image:
+          "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=85",
+      },
+    ],
+  },
+];
+
+function HighlightSlideshow({
+  section,
+}: {
+  section: (typeof highlightSections)[number];
+}) {
+  const [index, setIndex] = useState(0);
+  const current = section.slides[index];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex((previous) => (previous + 1) % section.slides.length);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, [section.slides.length]);
+
+  const previous = () => {
+    setIndex(
+      (previousIndex) =>
+        (previousIndex - 1 + section.slides.length) %
+        section.slides.length,
+    );
+  };
+
+  const next = () => {
+    setIndex((previousIndex) => (previousIndex + 1) % section.slides.length);
+  };
+
+  return (
+    <section className="mb-16">
+      <div className="mb-6">
+        <p className="achievement-label">Community achievements</p>
+        <h3 className="achievement-section-title mt-2 text-2xl font-bold sm:text-3xl">
+          {section.heading}
+        </h3>
+        <p className="achievement-section-description mt-2 max-w-2xl">
+          {section.description}
+        </p>
+      </div>
+
+      <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.id}
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -25 }}
+            transition={{ duration: 0.35 }}
+            className="grid min-h-[420px] lg:grid-cols-2"
+          >
+            <div className="relative min-h-[280px] overflow-hidden bg-[#F7FAFC] sm:min-h-[380px]">
+              <img
+                src={current.image}
+                alt={current.title}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+              <span className="absolute bottom-6 left-6 rounded-full bg-white/95 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#045797]">
+                {section.heading}
+              </span>
+            </div>
+
+            <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-12">
+              <p className="text-sm font-semibold text-[#045797]">
+                {current.subtitle}
+              </p>
+
+              <h4 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                {current.title}
+              </h4>
+
+              <p className="mt-5 text-base leading-7 text-slate-600">
+                {current.description}
+              </p>
+
+              {current.link && (
+                <Link
+                  href={current.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-[#045797] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#034576]"
+                >
+                  {current.linkText || "View Source"}
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              )}
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={previous}
+                  aria-label={`Previous ${section.heading} slide`}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:bg-[#F5F7FA] hover:text-[#045797]"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={next}
+                  aria-label={`Next ${section.heading} slide`}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:bg-[#F5F7FA] hover:text-[#045797]"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+
+                <div className="ml-2 flex items-center gap-2">
+                  {section.slides.map((slide, slideIndex) => (
+                    <button
+                      key={slide.id}
+                      type="button"
+                      onClick={() => setIndex(slideIndex)}
+                      aria-label={`Go to slide ${slideIndex + 1} in ${section.heading}`}
+                      aria-current={slideIndex === index ? "true" : undefined}
+                      className={`h-2 rounded-full transition-all ${
+                        slideIndex === index
+                          ? "w-7 bg-[#045797]"
+                          : "w-2 bg-slate-300 hover:bg-slate-400"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <span className="ml-auto text-sm text-slate-500">
+                  {index + 1} / {section.slides.length}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   LAZY-LOADED HIGHLIGHT SECTION
+========================================================= */
+function LazyHighlightSlideshow({
+  section,
+}: {
+  section: (typeof highlightSections)[number];
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "300px 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="min-h-[420px]">
+      {shouldLoad ? (
+        <HighlightSlideshow section={section} />
+      ) : (
+        <div
+          className="mb-16 flex min-h-[420px] animate-pulse flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white sm:flex-row"
+          aria-label={`Loading ${section.heading}`}
+        >
+          <div className="min-h-[280px] bg-slate-100 sm:w-1/2" />
+          <div className="flex flex-1 flex-col justify-center gap-4 p-8">
+            <div className="h-4 w-2/5 rounded bg-slate-200" />
+            <div className="h-8 w-4/5 rounded bg-slate-200" />
+            <div className="h-4 w-full rounded bg-slate-200" />
+            <div className="h-4 w-3/4 rounded bg-slate-200" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 /* =========================================================
    PAGE
 ========================================================= */
-
 export default function AchievementsPage() {
   const [selected, setSelected] = useState<string | null>(null);
-
-  /* Contribution pagination */
   const [contributorPage, setContributorPage] = useState(0);
-
-  /* Achievement highlight carousel */
   const [highlightIndex, setHighlightIndex] = useState(0);
 
   const contributorsPerPage = 10;
@@ -491,7 +841,6 @@ export default function AchievementsPage() {
      AUTO CHANGE ACHIEVEMENT HIGHLIGHT
      Every 5 seconds
   ======================================================= */
-
   useEffect(() => {
     const interval = window.setInterval(() => {
       setHighlightIndex((current) =>
@@ -521,19 +870,16 @@ export default function AchievementsPage() {
       {/* =====================================================
           HERO
       ===================================================== */}
-
       <section className="mx-auto max-w-7xl px-6 pb-16 pt-28 lg:px-8">
         <div className="max-w-4xl">
           <p className="achievement-label mb-4">
             WikiClub Tech UU · Achievements
           </p>
-
           <h1 className="text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl">
             Celebrating
             <span className="achievement-blue"> Ideas, Impact </span>
             & Achievement.
           </h1>
-
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
             A record of the milestones, achievements and contributions that
             define the WikiClub Tech community at United University.
@@ -544,15 +890,12 @@ export default function AchievementsPage() {
       {/* =====================================================
           OUR MILESTONES
       ===================================================== */}
-
       <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
         <div className="mb-8">
           <p className="achievement-label">By the numbers</p>
-
           <h2 className="achievement-section-title mt-2 text-3xl font-bold">
             Our Milestones
           </h2>
-
           <p className="achievement-section-description mt-2 max-w-2xl">
             A quick look at the community&apos;s contribution and achievement
             milestones.
@@ -561,7 +904,6 @@ export default function AchievementsPage() {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {/* CONTRIBUTORS */}
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -569,14 +911,11 @@ export default function AchievementsPage() {
             className="milestone-card"
           >
             <div className="milestone-line milestone-line-green" />
-
             <p className="milestone-number">{contributors.length}</p>
-
             <p className="milestone-label">Featured Contributors</p>
           </motion.div>
 
           {/* VERIFIED CONTRIBUTIONS */}
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -585,14 +924,11 @@ export default function AchievementsPage() {
             className="milestone-card"
           >
             <div className="milestone-line milestone-line-blue" />
-
             <p className="milestone-number">{totalContributions}</p>
-
             <p className="milestone-label">Recorded Contributions</p>
           </motion.div>
 
           {/* ACHIEVEMENTS */}
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -601,26 +937,20 @@ export default function AchievementsPage() {
             className="milestone-card"
           >
             <div className="milestone-line milestone-line-maroon" />
-
             <p className="milestone-number">{totalAchievements}</p>
-
             <p className="milestone-label">Community Achievements</p>
           </motion.div>
         </div>
       </section>
-
-      {/* =====================================================
+            {/* =====================================================
           CONTRIBUTION CHAMPIONS
       ===================================================== */}
-
       <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
         <div className="mb-8">
           <p className="achievement-label">Community contribution</p>
-
           <h2 className="achievement-section-title mt-2 text-3xl font-bold">
             Contribution Champions
           </h2>
-
           <p className="achievement-section-description mt-2 max-w-2xl">
             Recognizing contributors and community members who are helping
             build, improve and grow WikiClub Tech.
@@ -635,15 +965,12 @@ export default function AchievementsPage() {
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
                     Rank
                   </th>
-
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
                     Contributor
                   </th>
-
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
                     Contribution
                   </th>
-
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
                     Details
                   </th>
@@ -654,9 +981,7 @@ export default function AchievementsPage() {
                 {visibleContributors.map((contributor, localIndex) => {
                   const globalIndex =
                     contributorPage * contributorsPerPage + localIndex;
-
                   const rank = globalIndex + 1;
-
                   const isSelected = selected === contributor.id;
 
                   return (
@@ -675,25 +1000,21 @@ export default function AchievementsPage() {
                         }`}
                       >
                         {/* RANK */}
-
                         <td className="px-6 py-5">
                           <RankBadge rank={rank} />
                         </td>
 
                         {/* CONTRIBUTOR */}
-
                         <td className="px-6 py-5">
                           <div className="flex items-center gap-3">
                             <ContributorAvatar
                               name={contributor.name}
                               image={contributor.image}
                             />
-
                             <div>
                               <p className="font-bold text-slate-900">
                                 {contributor.name}
                               </p>
-
                               <p className="mt-0.5 text-xs text-slate-400">
                                 {contributor.merged !== undefined
                                   ? "WikiClub Tech Contributor"
@@ -704,16 +1025,13 @@ export default function AchievementsPage() {
                         </td>
 
                         {/* CONTRIBUTION */}
-
                         <td className="px-6 py-5">
                           {contributor.merged !== undefined ? (
                             <div className="flex items-center gap-2">
                               <GitPullRequest className="h-4 w-4 text-[#35A06A]" />
-
                               <span className="font-bold text-[#35A06A]">
                                 {contributor.merged}
                               </span>
-
                               <span className="text-sm text-slate-400">
                                 {contributor.merged === 1
                                   ? "contribution"
@@ -728,7 +1046,6 @@ export default function AchievementsPage() {
                         </td>
 
                         {/* DETAILS */}
-
                         <td className="px-6 py-5">
                           <button
                             type="button"
@@ -741,7 +1058,6 @@ export default function AchievementsPage() {
                             className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition hover:border-[#045797]/30 hover:bg-[#F5F7FA] hover:text-[#045797]"
                           >
                             {isSelected ? "Hide Details" : "View Details"}
-
                             <ChevronDown
                               className={`h-4 w-4 transition-transform duration-200 ${
                                 isSelected ? "rotate-180" : ""
@@ -752,7 +1068,6 @@ export default function AchievementsPage() {
                       </motion.tr>
 
                       {/* EXPANDED DETAILS */}
-
                       <AnimatePresence initial={false}>
                         {isSelected && (
                           <motion.tr
@@ -772,25 +1087,21 @@ export default function AchievementsPage() {
                                 className="rounded-xl border bg-white p-5 shadow-sm"
                               >
                                 {/* PROFILE */}
-
                                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
                                   <ContributorAvatar
                                     name={contributor.name}
                                     image={contributor.image}
                                     size="large"
                                   />
-
                                   <div>
                                     <p className="text-xl font-bold text-slate-900">
                                       {contributor.name}
                                     </p>
-
                                     <p className="mt-1 text-sm font-medium text-[#045797]">
                                       {contributor.merged !== undefined
                                         ? "WikiClub Tech Contributor"
                                         : "Featured Community Member"}
                                     </p>
-
                                     <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
                                       {contributor.description}
                                     </p>
@@ -798,13 +1109,11 @@ export default function AchievementsPage() {
                                 </div>
 
                                 {/* STATS */}
-
                                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
                                   <div className="rounded-lg border bg-[#F8FAFC] p-4">
                                     <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                                       Community Rank
                                     </p>
-
                                     <p className="mt-1 text-lg font-bold text-[#045797]">
                                       #{rank}
                                     </p>
@@ -814,7 +1123,6 @@ export default function AchievementsPage() {
                                     <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                                       Contribution Record
                                     </p>
-
                                     <p className="mt-1 text-lg font-bold text-[#35A06A]">
                                       {contributor.merged !== undefined
                                         ? contributor.merged
@@ -826,7 +1134,6 @@ export default function AchievementsPage() {
                                     <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                                       Status
                                     </p>
-
                                     <p className="mt-1 text-lg font-bold text-[#35A06A]">
                                       Active
                                     </p>
@@ -834,19 +1141,16 @@ export default function AchievementsPage() {
                                 </div>
 
                                 {/* CONTRIBUTION DETAILS */}
-
                                 <div className="mt-6 border-t pt-5">
                                   <div className="mb-3 flex items-center justify-between">
                                     <div>
                                       <p className="text-sm font-bold text-slate-800">
                                         Contribution Details
                                       </p>
-
                                       <p className="text-xs text-slate-400">
                                         WikiClub Tech community record
                                       </p>
                                     </div>
-
                                     <span className="rounded-full bg-[#35A06A]/10 px-3 py-1 text-xs font-bold text-[#35A06A]">
                                       {contributor.merged !== undefined
                                         ? `Total: ${contributor.merged}`
@@ -857,7 +1161,6 @@ export default function AchievementsPage() {
                                   <div className="rounded-lg border bg-[#F8FAFC] p-4">
                                     <div className="flex items-center gap-3">
                                       <GitPullRequest className="h-5 w-5 text-[#35A06A]" />
-
                                       <div>
                                         <p className="text-sm font-semibold text-slate-800">
                                           {contributor.merged !== undefined
@@ -868,7 +1171,6 @@ export default function AchievementsPage() {
                                               }`
                                             : "Featured community member"}
                                         </p>
-
                                         <p className="mt-1 text-xs text-slate-400">
                                           {contributor.merged !== undefined
                                             ? "Recognized contribution count for WikiClub Tech."
@@ -893,7 +1195,6 @@ export default function AchievementsPage() {
           {/* ===================================================
               PAGINATION
           =================================================== */}
-
           <div className="flex flex-col gap-4 border-t bg-[#F8FAFC] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-500">
               Showing{" "}
@@ -950,7 +1251,6 @@ export default function AchievementsPage() {
         {/* =====================================================
             JOIN WIKICLUB CTA
         ===================================================== */}
-
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -961,12 +1261,10 @@ export default function AchievementsPage() {
             <div className="achievement-icon shrink-0">
               <GitPullRequest className="h-5 w-5" />
             </div>
-
             <div>
               <h3 className="font-bold text-slate-900">
                 Want to become a contributor?
               </h3>
-
               <p className="mt-1 text-sm leading-6 text-slate-500">
                 Join WikiClub Tech and contribute to open knowledge,
                 documentation and community projects.
@@ -985,230 +1283,26 @@ export default function AchievementsPage() {
           </Link>
         </motion.div>
       </section>
+      
+{/* =====================================================
+    ACHIEVEMENT HIGHLIGHTS
+===================================================== */}
+<section className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
+  <div className="mb-10">
+    <p className="achievement-label">WikiClub Tech Community</p>
+    <h2 className="achievement-section-title mt-2 text-3xl font-bold">
+      Achievement Highlights
+    </h2>
+    <p className="achievement-section-description mt-2 max-w-2xl">
+      Discover community recognition, alumni stories and experiences through
+      three independent visual slideshows.
+    </p>
+  </div>
 
-      {/* =====================================================
-          ACHIEVEMENT HIGHLIGHTS
-      ===================================================== */}
-
-      <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-        <div className="mb-10">
-          <p className="achievement-label">Community achievements</p>
-
-          <h2 className="achievement-section-title mt-2 text-3xl font-bold">
-            Achievement Highlights
-          </h2>
-
-          <p className="achievement-section-description mt-2 max-w-2xl">
-            A visual collection of achievements, recognition, alumni journeys
-            and community experiences.
-          </p>
-        </div>
-
-        {/* ===================================================
-            MAIN AUTO CAROUSEL
-        =================================================== */}
-
-        <div className="relative overflow-hidden rounded-[2rem] border bg-white shadow-sm">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentHighlight.id}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.45 }}
-              className="grid min-h-[600px] lg:grid-cols-2"
-            >
-              {/* IMAGE AREA */}
-
-              <div className="relative flex min-h-[390px] items-center justify-center overflow-hidden bg-[#F7FAFC] p-8 sm:p-12 lg:min-h-[600px]">
-                {/* BACK IMAGE */}
-
-                <div className="absolute left-[9%] top-[15%] h-[68%] w-[70%] rotate-[-8deg] overflow-hidden rounded-[2rem] border-8 border-white bg-slate-100 shadow-xl opacity-75">
-                  <HighlightImage
-                    src={
-                      currentHighlight.secondaryImage ||
-                      currentHighlight.image
-                    }
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-
-                {/* MAIN IMAGE */}
-
-                <div className="relative z-10 h-[78%] w-[78%] rotate-[1deg] overflow-hidden rounded-[2rem] border-8 border-[#111827] bg-white shadow-2xl">
-                  <HighlightImage
-                    src={currentHighlight.image}
-                    alt={currentHighlight.title}
-                    className="h-full w-full object-cover"
-                  />
-
-                  {currentHighlight.video && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/95 shadow-xl">
-                        <Play className="ml-1 h-7 w-7 fill-[#045797] text-[#045797]" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* THIRD LAYER */}
-
-                <div className="absolute bottom-[8%] right-[7%] h-[24%] w-[30%] rotate-[7deg] overflow-hidden rounded-[1.5rem] border-4 border-white bg-slate-100 shadow-lg">
-                  <HighlightImage
-                    src={currentHighlight.image}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* TEXT AREA */}
-
-              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-                <span className="inline-flex w-fit rounded-full bg-[#045797]/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#045797]">
-                  {currentHighlight.type}
-                </span>
-
-                <h3 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                  {currentHighlight.title}
-                </h3>
-
-                <p className="mt-3 text-lg font-medium text-slate-500">
-                  {currentHighlight.subtitle}
-                </p>
-
-                <p className="mt-7 max-w-xl text-lg leading-8 text-slate-600">
-                  {currentHighlight.description}
-                </p>
-
-                {currentHighlight.type === "Testimonials" && (
-                  <div className="mt-7 flex items-start gap-3 rounded-xl bg-[#F8FAFC] p-4">
-                    <Quote className="mt-0.5 h-5 w-5 shrink-0 text-[#045797]" />
-
-                    <p className="text-sm leading-6 text-slate-500">
-                      Community voices and experiences will be presented here
-                      through verified testimonials.
-                    </p>
-                  </div>
-                )}
-
-                {/* CONTROLS */}
-
-                <div className="mt-10 flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={previousHighlight}
-                    aria-label="Previous achievement highlight"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-[#045797]/30 hover:bg-[#F5F7FA] hover:text-[#045797]"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={nextHighlight}
-                    aria-label="Next achievement highlight"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-[#045797]/30 hover:bg-[#F5F7FA] hover:text-[#045797]"
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </button>
-
-                  <div className="ml-3 flex items-center gap-1.5">
-                    {achievementHighlights.map((highlight, index) => (
-                      <button
-                        key={highlight.id}
-                        type="button"
-                        onClick={() => setHighlightIndex(index)}
-                        aria-label={`Go to highlight ${index + 1}`}
-                        className={`h-2 rounded-full transition-all ${
-                          index === highlightIndex
-                            ? "w-7 bg-[#045797]"
-                            : "w-2 bg-slate-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* ===================================================
-            HIGHLIGHT TYPES
-        =================================================== */}
-
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {/* AWARDS */}
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="achievement-card p-6"
-          >
-            <div className="achievement-icon">
-              <Trophy className="h-5 w-5" />
-            </div>
-
-            <h3 className="mt-5 text-xl font-bold text-slate-900">
-              Awards & Recognition
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Celebrating awards, recognitions and accomplishments earned by
-              WikiClub Tech members and teams.
-            </p>
-          </motion.div>
-
-          {/* ALUMNI */}
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.05 }}
-            className="achievement-card p-6"
-          >
-            <div className="achievement-icon">
-              <GraduationCap className="h-5 w-5" />
-            </div>
-
-            <h3 className="mt-5 text-xl font-bold text-slate-900">
-              Alumni Achievement
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Showcasing the academic, professional and entrepreneurial
-              achievements of WikiClub Tech alumni.
-            </p>
-          </motion.div>
-
-          {/* TESTIMONIALS */}
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="achievement-card p-6"
-          >
-            <div className="achievement-icon">
-              <UserRound className="h-5 w-5" />
-            </div>
-
-            <h3 className="mt-5 text-xl font-bold text-slate-900">
-              Testimonials
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Member, mentor and collaborator experiences presented through
-              photos, videos and testimonial stories.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+  {highlightSections.map((section) => (
+  <LazyHighlightSlideshow key={section.id} section={section} />
+  ))}
+</section>
     </main>
   );
 }
