@@ -16,6 +16,8 @@ import {
   Quote,
 } from "lucide-react";
 import { achievements } from "../../data/achievements/achievements";
+import { RiH1 } from "react-icons/ri";
+import { GiH2O } from "react-icons/gi";
 
 /* =========================================================
    CONTRIBUTOR TYPES
@@ -496,6 +498,49 @@ const highlightSections: {
   description: string;
   slides: HighlightSlide[];
 }[] = [
+  
+  {
+    id: "global-opportunities",
+    heading: "Global Achievements & Opportunities",
+    description:
+      "Explore global scholarships, travel grants, international events and open-source opportunities for students and contributors.",
+    slides: [
+      {
+        id: "wikimedia-scholarships",
+        title: "Wikimedia Scholarships & Travel Grants",
+        subtitle: "Scholarships · Travel Support",
+        description:
+          "Explore funding opportunities that may support eligible community members attending Wikimedia events and conferences. Check the official program page for eligibility, deadlines and application requirements.",
+        image:
+          "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+        link: "https://meta.wikimedia.org/wiki/Grants:Programs",
+        linkText: "Explore Wikimedia Grants",
+      },
+      {
+        id: "international-conferences",
+        title: "Global Conferences & Events",
+        subtitle: "International Events · Community",
+        description:
+          "Discover Wikimedia events and international community gatherings. Check official event pages for registration, participation and funding details.",
+        image:
+          "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
+        link: "https://meta.wikimedia.org/wiki/Events",
+        linkText: "Explore Wikimedia Events",
+      },
+      {
+        id: "open-source-programs",
+        title: "Open-Source Programs & Fellowships",
+        subtitle: "Open Source · Learning Opportunities",
+        description:
+          "Explore open-source projects, collaborative development and learning opportunities. Verify program availability, eligibility and deadlines on official websites.",
+        image:
+          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
+        link: "https://www.wikimedia.org/",
+        linkText: "Explore Wikimedia",
+      },
+    ],
+  },
+
   {
     id: "awards",
     heading: "Awards & Recognition",
@@ -866,26 +911,58 @@ export default function AchievementsPage() {
   const currentHighlight = achievementHighlights[highlightIndex];
 
   return (
-    <main className="achievement-page min-h-screen">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-      <section className="mx-auto max-w-7xl px-6 pb-16 pt-28 lg:px-8">
-        <div className="max-w-4xl">
-          <p className="achievement-label mb-4">
-            WikiClub Tech UU · Achievements
-          </p>
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl">
-            Celebrating
-            <span className="achievement-blue"> Ideas, Impact </span>
-            & Achievement.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            A record of the milestones, achievements and contributions that
-            define the WikiClub Tech community at United University.
-          </p>
-        </div>
-      </section>
+
+      <main className="achievement-page relative isolate min-h-screen">
+
+    {/* Pastel gradient background */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 -z-10"
+    style={{
+      background: `
+        radial-gradient(circle at 15% 10%, rgba(210, 238, 250, 0.75) 0%, rgba(210, 238, 250, 0) 42%),
+        radial-gradient(circle at 85% 10%, rgba(215, 250, 225, 0.8) 0%, rgba(215, 250, 225, 0) 45%),
+        radial-gradient(circle at 80% 90%, rgba(255, 245, 235, 0.65) 0%, rgba(255, 245, 235, 0) 40%),
+        #f8fcfa
+      `,
+    }}
+  />
+
+  {/* Grid background — behind all content */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 -z-10"
+    style={{
+      backgroundImage: `
+        linear-gradient(rgba(100, 116, 139, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 116, 139, 0.12) 1px, transparent 1px)
+      `,
+      backgroundSize: "52px 52px",
+      backgroundPosition: "center center",
+      maskImage: "linear-gradient(to bottom, black 75%, transparent)",
+      WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent)",
+    }}
+  />
+
+    {/* HERO */}
+    <section className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-28 lg:px-8">
+      <div className="max-w-4xl">
+        <p className="achievement-label mb-4">
+          WikiClub Tech UU · Achievements
+        </p>
+
+        <h1 className="text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl">
+          Celebrating
+          <span className="achievement-blue"> Ideas, Impact </span>
+          & Achievement.
+        </h1>
+
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+          A record of the milestones, achievements and contributions that
+          define the WikiClub Tech community at United University.
+        </p>
+      </div>
+    </section>
 
       {/* =====================================================
           OUR MILESTONES
@@ -1293,10 +1370,6 @@ export default function AchievementsPage() {
     <h2 className="achievement-section-title mt-2 text-3xl font-bold">
       Achievement Highlights
     </h2>
-    <p className="achievement-section-description mt-2 max-w-2xl">
-      Discover community recognition, alumni stories and experiences through
-      three independent visual slideshows.
-    </p>
   </div>
 
   {highlightSections.map((section) => (
