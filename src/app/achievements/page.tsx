@@ -32,6 +32,7 @@ type Contributor = {
 /* =========================================================
    CONTRIBUTION CHAMPIONS
    First 10 = verified contribution records.
+   Next 10 = featured contributors from the team screenshots.
 ========================================================= */
 const contributors: Contributor[] = [
   {
@@ -300,6 +301,31 @@ const achievementHighlights: Highlight[] = [
     secondaryImage: "/achievements/tedx-united-university-2.jpg",
   },
   {
+    id: "anshuman-unnati-research",
+    type: "Awards & Recognition",
+    title: "A Stacked Learning Approach to Intrusion Detection",
+    subtitle: "Anshuman Rai & Unnati Kesarwani · AICCT-2025",
+    description:
+      "Anshuman Rai and co-author Unnati Kesarwani presented their research paper, 'A Stacked Learning Approach to Intrusion Detection for Robust Network Protection', at the 1st International Conference on Advances in Intelligent Computing and Communication Technology (AICCT-2025) at United University, Prayagraj, addressing critical gaps in network security.",
+    image: "/achievements/anshuman-unnati-research.jpg",
+    secondaryImage: "/achievements/anshuman-unnati-research.jpg",
+    link: "https://lnkd.in/p/gr6gVk_3",
+  },
+  {
+    id: "ayush-saumya-research",
+    type: "Awards & Recognition",
+    title: "International Conference Research Presentation",
+    subtitle: "Ayush Tiwari & Saumya Agrahari · AICCT-2025",
+    description:
+      "Ayush Tiwari and co-author Saumya Agrahari presented their international conference paper at the 1st International Conference on Advances in Intelligent Computing and Communication Technology (AICCT-2025), organized by United University, Prayagraj, contributing to research in intelligent computing and communication technologies.",
+    image: "/achievements/ayush-saumya-research.jpg",
+    secondaryImage: "/achievements/ayush-saumya-research.jpg",
+    link: "https://lnkd.in/p/gCUqqBDR",
+  },
+  /* =========================================================
+     ALUMNI ACHIEVEMENT & TESTIMONIALS (Commented out per request)
+  =========================================================
+  {
     id: "alumni-achievement",
     type: "Alumni Achievement",
     title: "Alumni Achievement",
@@ -330,6 +356,7 @@ const achievementHighlights: Highlight[] = [
     secondaryImage: "/achievements/testimonial-2.jpg",
     video: true,
   },
+  ========================================================= */
 ];
 
 /* =========================================================
@@ -356,8 +383,9 @@ function ContributorAvatar({
   if (!image || imageError) {
     return (
       <div
-        className={`flex shrink-0 items-center justify-center rounded-full bg-[#F5F7FA] font-bold text-[#045797] ring-1 ring-slate-200 ${isLarge ? "h-20 w-20 text-xl" : "h-12 w-12 text-sm"
-          }`}
+        className={`flex shrink-0 items-center justify-center rounded-full bg-[#F5F7FA] font-bold text-[#045797] ring-1 ring-slate-200 ${
+          isLarge ? "h-20 w-20 text-xl" : "h-12 w-12 text-sm"
+        }`}
       >
         {initials}
       </div>
@@ -366,8 +394,9 @@ function ContributorAvatar({
 
   return (
     <div
-      className={`shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow-sm ring-1 ring-slate-200 ${isLarge ? "h-20 w-20" : "h-12 w-12"
-        }`}
+      className={`shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow-sm ring-1 ring-slate-200 ${
+        isLarge ? "h-20 w-20" : "h-12 w-12"
+      }`}
     >
       <img
         src={encodeURI(image)}
@@ -488,7 +517,6 @@ const highlightSections: {
   description: string;
   slides: HighlightSlide[];
 }[] = [
-<<<<<<< HEAD
   
   {
     id: "global-opportunities",
@@ -496,39 +524,62 @@ const highlightSections: {
     description:
       "Explore global scholarships, travel grants, international events and open-source opportunities for students and contributors.",
     slides: [
-      {
-        id: "wikimedia-scholarships",
-        title: "Wikimedia Scholarships & Travel Grants",
-        subtitle: "Scholarships · Travel Support",
-        description:
-          "Explore funding opportunities that may support eligible community members attending Wikimedia events and conferences. Check the official program page for eligibility, deadlines and application requirements.",
-        image:
-          "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
-        link: "https://meta.wikimedia.org/wiki/Grants:Programs",
-        linkText: "Explore Wikimedia Grants",
-      },
-      {
-        id: "international-conferences",
-        title: "Global Conferences & Events",
-        subtitle: "International Events · Community",
-        description:
-          "Discover Wikimedia events and international community gatherings. Check official event pages for registration, participation and funding details.",
-        image:
-          "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
-        link: "https://meta.wikimedia.org/wiki/Events",
-        linkText: "Explore Wikimedia Events",
-      },
-      {
-        id: "open-source-programs",
-        title: "Open-Source Programs & Fellowships",
-        subtitle: "Open Source · Learning Opportunities",
-        description:
-          "Explore open-source projects, collaborative development and learning opportunities. Verify program availability, eligibility and deadlines on official websites.",
-        image:
-          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
-        link: "https://www.wikimedia.org/",
-        linkText: "Explore Wikimedia",
-      },
+// Removed existing slides for brevity; see comments below for preserved code.
+/*
+  {
+    id: "wikimedia-scholarships",
+    title: "Wikimedia Scholarships & Travel Grants",
+    subtitle: "Scholarships · Travel Support",
+    description:
+      "Explore funding opportunities that may support eligible community members attending Wikimedia events and conferences. Check the official program page for eligibility, deadlines and application requirements.",
+    image:
+      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+    link: "https://meta.wikimedia.org/wiki/Grants:Programs",
+    linkText: "Explore Wikimedia Grants",
+  },
+  {
+    id: "international-conferences",
+    title: "Global Conferences & Events",
+    subtitle: "International Events · Community",
+    description:
+      "Discover Wikimedia events and international community gatherings. Check official event pages for registration, participation and funding details.",
+    image:
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
+    link: "https://meta.wikimedia.org/wiki/Events",
+    linkText: "Explore Wikimedia Events",
+  },
+  {
+    id: "open-source-programs",
+    title: "Open-Source Programs & Fellowships",
+    subtitle: "Open Source · Learning Opportunities",
+    description:
+      "Explore open-source projects, collaborative development and learning opportunities. Verify program availability, eligibility and deadlines on official websites.",
+    image:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
+    link: "https://www.wikimedia.org/",
+    linkText: "Explore Wikimedia",
+  },
+*/
+{
+  id: "wikiconference-india-2026",
+  title: "WikiConference India 2026",
+  subtitle: "Kochi, Kerala · September 4–6, 2026",
+  description:
+    "WikiConference India 2026 was held in Kochi, Kerala — bringing together Wikimedians from across India for three days of sessions, workshops and community collaboration. Explore the official Meta-Wiki page for programme details, reports and community highlights.",
+  image: "/achievements/wikiconference-india-2026.jpg",
+  link: "https://meta.wikimedia.org/wiki/WikiConference_India_2026",
+  linkText: "View WikiConference India 2026",
+},
+{
+  id: "shadab-global-achievement",
+  title: "Shadab's Global Achievement",
+  subtitle: "Mohd Shadab · Wikimedia Hackathon",
+  description:
+    "Mohd Shadab represented WikiClub Tech UU at a global Wikimedia event, participating alongside Wikimedians from around the world. This milestone highlights the community's growing presence at international open-knowledge platforms.",
+  image: "/achievements/shadab-global-achievement.jpg",
+  link: "https://lnkd.in/p/gXwMk4MC",
+  linkText: "View Achievement",
+},
     ],
   },
 
@@ -569,8 +620,31 @@ const highlightSections: {
         link: "https://lnkd.in/p/g68nPqBE",
         linkText: "View UHack 4.0 Post",
       },
+      {
+        id: "anshuman-unnati-research",
+        title: "A Stacked Learning Approach to Intrusion Detection",
+        subtitle: "Anshuman Rai & Unnati Kesarwani · AICCT-2025",
+        description:
+          "Anshuman Rai and co-author Unnati Kesarwani presented their research paper, 'A Stacked Learning Approach to Intrusion Detection for Robust Network Protection', at the 1st International Conference on Advances in Intelligent Computing and Communication Technology (AICCT-2025) at United University, Prayagraj, addressing critical gaps in network security.",
+        image: "/achievements/anshuman-unnati-research.jpg",
+        link: "https://lnkd.in/p/gr6gVk_3",
+        linkText: "View Research Post",
+      },
+      {
+        id: "ayush-saumya-research",
+        title: "International Conference Research Presentation",
+        subtitle: "Ayush Tiwari & Saumya Agrahari · AICCT-2025",
+        description:
+          "Ayush Tiwari and co-author Saumya Agrahari presented their international conference paper at the 1st International Conference on Advances in Intelligent Computing and Communication Technology (AICCT-2025), organized by United University, Prayagraj, contributing to research in intelligent computing and communication technologies.",
+        image: "/achievements/ayush-saumya-research.jpg",
+        link: "https://lnkd.in/p/gCUqqBDR",
+        linkText: "View Research Post",
+      },
     ],
   },
+  /* =========================================================
+     ALUMNI ACHIEVEMENTS (Commented out per request)
+  =========================================================
   {
     id: "alumni",
     heading: "Alumni Achievements",
@@ -607,6 +681,10 @@ const highlightSections: {
       },
     ],
   },
+  ========================================================= */
+  /* =========================================================
+     TESTIMONIALS (Commented out per request)
+  =========================================================
   {
     id: "testimonials",
     heading: "Testimonials",
@@ -642,121 +720,8 @@ const highlightSections: {
       },
     ],
   },
+  ========================================================= */
 ];
-=======
-    {
-      id: "awards",
-      heading: "Awards & Recognition",
-      description:
-        "Celebrating achievements, hackathons and open-source contributions.",
-      slides: [
-        {
-          id: "clip2commons",
-          title: "Open-Source Contributions",
-          subtitle: "Kavaljeet Singh · Clip2Commons",
-          description:
-            "Kavaljeet shared his open-source contribution journey, including improvements related to accessibility, keyboard navigation and the upload workflow.",
-          image:
-            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
-          link: "https://www.linkedin.com/posts/kavaljeet-singh-dev_opensource-wikimedia-mediawiki-activity-7482391525847601152-CZNr",
-          linkText: "View LinkedIn Post",
-        },
-        {
-          id: "genai-hackathon",
-          title: "GenAI Hackathon Achievement",
-          subtitle: "Team Nimbus · UIT Prayagraj",
-          description:
-            "A team achievement highlighting innovation, collaboration and problem-solving during a GenAI hackathon.",
-          image:
-            "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=85",
-          link: "https://in.linkedin.com/in/kavaljeet-singh-dev",
-          linkText: "View Contributor Profile",
-        },
-        {
-          id: "uhack",
-          title: "UHack 4.0 Recognition",
-          subtitle: "Team Achievement",
-          description: "Celebrating the team's participation, innovation, and achievements at UHack 4.0.",
-          image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
-          link: "https://lnkd.in/p/g68nPqBE",
-          linkText: "View UHack 4.0 Post",
-        },
-      ],
-    },
-    {
-      id: "alumni",
-      heading: "Alumni Achievements",
-      description:
-        "Celebrating alumni journeys, knowledge sharing and contributions to the Wikimedia community.",
-      slides: [
-        {
-          id: "shadab-wikipedia25",
-          title: "Wikipedia's 25th Birthday Celebration",
-          subtitle: "WikiClub Tech · Community Story",
-          description:
-            "Read about the Wikipedia 25th birthday celebration at WikiClub Tech, including the Why I Wiki session and Wikimedia journey shared during the event.",
-          image:
-            "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
-          link: "https://diff.wikimedia.org/2026/04/12/wikipedia-25th-birthday-celebration-at-wikiclub-tech-united-university/",
-          linkText: "Read the Published Article",
-        },
-        {
-          id: "open-source-journey",
-          title: "Building an Open-Source Journey",
-          subtitle: "Community Contributions",
-          description:
-            "Open-source participation helps students build practical skills, collaborate with contributors and learn through real projects.",
-          image:
-            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
-        },
-        {
-          id: "alumni-community",
-          title: "Learning Beyond the Classroom",
-          subtitle: "Alumni & Community",
-          description:
-            "A space to feature verified alumni milestones, professional journeys, projects and experiences as more stories are collected.",
-          image:
-            "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=85",
-        },
-      ],
-    },
-    {
-      id: "testimonials",
-      heading: "Testimonials",
-      description:
-        "Experiences and reflections from members, mentors and collaborators.",
-      slides: [
-        {
-          id: "member-experience",
-          title: "A Community That Encourages Learning",
-          subtitle: "Member Experience · Sample Card",
-          description:
-            "Use this space to publish a real member's experience of workshops, teamwork, open-source learning and community participation. Replace this sample text with an approved testimonial.",
-          image:
-            "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
-        },
-        {
-          id: "mentor-experience",
-          title: "Learning Through Collaboration",
-          subtitle: "Mentor Feedback · Sample Card",
-          description:
-            "Feature feedback from a mentor or workshop facilitator here. Add the person's name and original source only after the testimonial has been verified.",
-          image:
-            "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85",
-        },
-        {
-          id: "community-experience",
-          title: "Growing Together as a Community",
-          subtitle: "Community Feedback · Sample Card",
-          description:
-            "Showcase a real community member's experience, highlighting the activities, people or opportunities that made a difference.",
-          image:
-            "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=85",
-        },
-      ],
-    },
-  ];
->>>>>>> 5ae2b16 (Update global achievements)
 
 function HighlightSlideshow({
   section,
@@ -874,10 +839,11 @@ function HighlightSlideshow({
                       onClick={() => setIndex(slideIndex)}
                       aria-label={`Go to slide ${slideIndex + 1} in ${section.heading}`}
                       aria-current={slideIndex === index ? "true" : undefined}
-                      className={`h-2 rounded-full transition-all ${slideIndex === index
+                      className={`h-2 rounded-full transition-all ${
+                        slideIndex === index
                           ? "w-7 bg-[#045797]"
                           : "w-2 bg-slate-300 hover:bg-slate-400"
-                        }`}
+                      }`}
                     />
                   ))}
                 </div>
@@ -1020,7 +986,6 @@ export default function AchievementsPage() {
       }}
     />
 
-<<<<<<< HEAD
     {/* HERO */}
     <section className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-28 lg:px-8">
       <div className="max-w-4xl">
@@ -1098,23 +1063,6 @@ export default function AchievementsPage() {
     </section>
   </div>
             {/* =====================================================
-=======
-          {/* ACHIEVEMENTS */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="milestone-card"
-          >
-            <div className="milestone-line milestone-line-maroon" />
-            <p className="milestone-number">{totalAchievements}</p>
-            <p className="milestone-label">Community Achievements</p>
-          </motion.div>
-        </div>
-      </section>
-      {/* =====================================================
->>>>>>> 5ae2b16 (Update global achievements)
           CONTRIBUTION CHAMPIONS
       ===================================================== */}
       <section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
@@ -1165,10 +1113,11 @@ export default function AchievementsPage() {
                           duration: 0.25,
                           delay: localIndex * 0.025,
                         }}
-                        className={`border-b transition-colors ${isSelected
+                        className={`border-b transition-colors ${
+                          isSelected
                             ? "bg-[#F8FAFC]"
                             : "hover:bg-slate-50/70"
-                          }`}
+                        }`}
                       >
                         {/* RANK */}
                         <td className="px-6 py-5">
@@ -1230,8 +1179,9 @@ export default function AchievementsPage() {
                           >
                             {isSelected ? "Hide Details" : "View Details"}
                             <ChevronDown
-                              className={`h-4 w-4 transition-transform duration-200 ${isSelected ? "rotate-180" : ""
-                                }`}
+                              className={`h-4 w-4 transition-transform duration-200 ${
+                                isSelected ? "rotate-180" : ""
+                              }`}
                             />
                           </button>
                         </td>
@@ -1334,10 +1284,11 @@ export default function AchievementsPage() {
                                       <div>
                                         <p className="text-sm font-semibold text-slate-800">
                                           {contributor.merged !== undefined
-                                            ? `${contributor.merged} merged ${contributor.merged === 1
-                                              ? "contribution"
-                                              : "contributions"
-                                            }`
+                                            ? `${contributor.merged} merged ${
+                                                contributor.merged === 1
+                                                  ? "contribution"
+                                                  : "contributions"
+                                              }`
                                             : "Featured community member"}
                                         </p>
                                         <p className="mt-1 text-xs text-slate-400">
@@ -1452,11 +1403,10 @@ export default function AchievementsPage() {
           </Link>
         </motion.div>
       </section>
-
-      {/* =====================================================
+      
+{/* =====================================================
     ACHIEVEMENT HIGHLIGHTS
 ===================================================== */}
-<<<<<<< HEAD
 <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
   <div className="mb-10">
     <p className="achievement-label">WikiClub Tech Community</p>
@@ -1464,24 +1414,11 @@ export default function AchievementsPage() {
       Achievement Highlights
     </h2>
   </div>
-=======
-      <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-        <div className="mb-10">
-          <p className="achievement-label">WikiClub Tech Community</p>
-          <h2 className="achievement-section-title mt-2 text-3xl font-bold">
-            Achievement Highlights
-          </h2>
-          <p className="achievement-section-description mt-2 max-w-2xl">
-            Discover community recognition, alumni stories and experiences through
-            three independent visual slideshows.
-          </p>
-        </div>
->>>>>>> 5ae2b16 (Update global achievements)
 
-        {highlightSections.map((section) => (
-          <LazyHighlightSlideshow key={section.id} section={section} />
-        ))}
-      </section>
+  {highlightSections.map((section) => (
+  <LazyHighlightSlideshow key={section.id} section={section} />
+  ))}
+</section>
     </main>
   );
 }
